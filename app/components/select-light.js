@@ -1,0 +1,1 @@
+export { default } from 'select-light/components/select-light';
