@@ -1,1 +1,9 @@
-{{yield}}
+{{#if placeholder}}
+  <option value="" selected>
+    {{placeholder}}
+  </option>
+{{/if}}
+
+{{#if hasBlock}}
+  {{yield}}
+{{/if}}

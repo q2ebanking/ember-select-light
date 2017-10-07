@@ -38,3 +38,26 @@ test('it should support tabindex', function(assert) {
   this.set('tabindex', 0);
   assert.equal(find('select').getAttribute('tabindex'), 0);
 });
+
+test('should have no options if none are specified', function(assert) {
+  this.render(hbs`{{select-light}}`);
+
+  assert.equal(find('select').getElementsByTagName('option').length, 0);
+});
+
+test('should have placeholder option if specified', function(assert) {
+  this.render(hbs`{{select-light placeholder="Walrus"}}`);
+
+  assert.equal(find('select option').innerText, 'Walrus');
+});
+
+test('should be able to yield to passed options', function(assert) {
+  this.render(hbs`
+    {{#select-light}}
+      <option value="plat">Platypus</option>
+    {{/select-light}}
+  `);
+
+  assert.equal(find('select option').innerText, 'Platypus');
+  assert.equal(find('select option').value, 'plat');
+});
