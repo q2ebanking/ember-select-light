@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { find, findAll } from 'ember-native-dom-helpers';
+import { find, findAll, fillIn, triggerEvent } from 'ember-native-dom-helpers';
 
 moduleForComponent('select-light', 'Integration | Component | select light', {
   integration: true
@@ -148,3 +148,70 @@ test('should render options with customized value and display keys when passed a
   assert.equal(find('select option').innerText.trim(), options[0].description);
 });
 
+test('should fire change when user chooses option, mut with yield', async function(assert) {
+  this.set('myValue', null);
+
+  this.render(hbs`
+    {{#select-light change=(action (mut myValue) value="target.value")}}
+      <option value="turtle">Turtle</option>
+    {{/select-light}}
+  `);
+
+  await fillIn('select', 'turtle');
+  await triggerEvent('select', 'change');
+
+  assert.equal(find('select').value, 'turtle');
+  assert.equal(this.get('myValue'), 'turtle');
+});
+
+test('should fire change when user chooses option, mut with flat array', async function(assert) {
+  let options = ['clam', 'starfish'];
+  this.setProperties({
+    options,
+    myValue: options[1],
+    value: options[1],
+  });
+
+  this.render(hbs`{{select-light options=options value=value change=(action (mut myValue) value="target.value")}}`);
+
+  await fillIn('select', options[0]);
+  await triggerEvent('select', 'change');
+
+  assert.equal(find('select').value, options[0]);
+  assert.equal(this.get('myValue'), options[0]);
+});
+
+test('should fire change when user chooses option, custom action with flat array', async function(assert) {
+  let options = ['clam', 'starfish'];
+  this.setProperties({
+    options,
+    value: options[1],
+    customAction: (event) => {
+      assert.equal(event.target.value, options[0]);
+    },
+  });
+
+  this.render(hbs`{{select-light options=options value=value change=(action customAction)}}`);
+
+  await fillIn('select', options[0]);
+  await triggerEvent('select', 'change');
+});
+
+test('should fire focusIn and focusOut events when needed', async function(assert) {
+  assert.expect(2);
+
+  this.setProperties({
+    options: ['clown fish', 'cat fish'],
+    focusIn: (event) => {
+      assert.equal(event.type, 'focusin');
+    },
+    focusOut: (event) => {
+      assert.equal(event.type, 'focusout');
+    },
+  });
+
+  this.render(hbs`{{select-light options=options focusIn=(action focusIn) focusOut=(action focusOut)}}`);
+
+  await triggerEvent('select', 'focus');
+  await triggerEvent('select', 'blur');
+});
