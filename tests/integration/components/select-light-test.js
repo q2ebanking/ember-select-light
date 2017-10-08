@@ -111,3 +111,40 @@ test('should revert to placeholder option when value set to null', function(asse
 
   assert.equal(find('select').value, '');
 });
+
+test('should render options correctly when passed array of objects', function(assert) {
+  let options = [
+    { value: 'shortfin', label: 'Shortfin Shark' },
+    { value: 'mako', label: 'Mako Shark' },
+  ];
+  let value = options[1].value;
+  this.setProperties({
+    options,
+    value,
+  });
+
+  this.render(hbs`{{select-light options=options value=value}}`);
+
+  assert.equal(findAll('select option').length, options.length);
+  assert.equal(find('select option').getAttribute('value'), options[0].value);
+  assert.equal(find('select option').innerText.trim(), options[0].label);
+  assert.equal(find('select').value, value);
+});
+
+test('should render options with customized value and display keys when passed array of objects', function(assert) {
+  let options = [
+    { val: 'shortfin', description: 'Shortfin Shark' },
+    { val: 'mako', description: 'Mako Shark' },
+  ];
+  let value = options[1].value;
+  this.setProperties({
+    options,
+    value,
+  });
+
+  this.render(hbs`{{select-light options=options value=value valueKey="val" displayKey="description"}}`);
+
+  assert.equal(find('select option').getAttribute('value'), options[0].val);
+  assert.equal(find('select option').innerText.trim(), options[0].description);
+});
+

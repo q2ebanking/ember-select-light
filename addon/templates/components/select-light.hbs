@@ -6,10 +6,18 @@
 
 {{#if hasBlock}}
   {{yield}}
+{{else}}
+  {{#if isDeepOptions}}
+    {{#each options as | option |}}
+      <option value={{get option valueKey}} selected={{eq (get option valueKey) value}}>
+        {{get option displayKey}}
+      </option>
+    {{/each}}
+  {{else}}
+    {{#each options as | option |}}
+      <option value={{option}} selected={{eq option value}}>
+        {{option}}
+      </option>
+    {{/each}}
+  {{/if}}
 {{/if}}
-
-{{#each options as | option |}}
-  <option value={{option}} selected={{eq option value}}>
-    {{option}}
-  </option>
-{{/each}}
