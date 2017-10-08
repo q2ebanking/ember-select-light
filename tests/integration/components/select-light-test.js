@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { find } from 'ember-native-dom-helpers';
+import { find, findAll } from 'ember-native-dom-helpers';
 
 moduleForComponent('select-light', 'Integration | Component | select light', {
   integration: true
@@ -60,4 +60,13 @@ test('should be able to yield to passed options', function(assert) {
 
   assert.equal(find('select option').innerText, 'Platypus');
   assert.equal(find('select option').value, 'plat');
+});
+
+test('should render options from passed flat array', function(assert) {
+  let options = ['squid', 'octopus'];
+  this.setProperties({options});
+
+  this.render(hbs`{{select-light options=options}}`);
+
+  assert.equal(findAll('select option').length, options.length);
 });

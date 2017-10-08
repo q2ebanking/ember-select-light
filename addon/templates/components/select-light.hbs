@@ -7,3 +7,9 @@
 {{#if hasBlock}}
   {{yield}}
 {{/if}}
+
+{{#each options as | option |}}
+  <option value={{option}}>
+    {{option}}
+  </option>
+{{/each}}

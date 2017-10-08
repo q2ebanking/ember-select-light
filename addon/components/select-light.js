@@ -9,4 +9,5 @@ export default Ember.Component.extend({
   disabled: false,
   tabindex: null,
   placeholder: '',
+  options: [],
 });
