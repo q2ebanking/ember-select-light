@@ -70,3 +70,44 @@ test('should render options from passed flat array', function(assert) {
 
   assert.equal(findAll('select option').length, options.length);
 });
+
+test('should select option that matches value', function(assert) {
+  let options = ['squid', 'octopus'];
+  let value = options[1];
+  this.setProperties({
+    options,
+    value,
+  });
+
+  this.render(hbs`{{select-light options=options value=value}}`);
+
+  assert.equal(find('select').value, value);
+});
+
+test('should change select value when changing data down value', function(assert) {
+  let options = ['shortfin', 'mako'];
+  let value = options[1];
+  this.setProperties({
+    options,
+    value,
+  });
+
+  this.render(hbs`{{select-light options=options value=value placeholder="hammerhead"}}`);
+  this.set('value', options[0]);
+
+  assert.equal(find('select').value, options[0]);
+});
+
+test('should revert to placeholder option when value set to null', function(assert) {
+  let options = ['Sea Turtle', 'Stingray'];
+  let value = options[1];
+  this.setProperties({
+    options,
+    value,
+  });
+
+  this.render(hbs`{{select-light options=options value=value placeholder="Fish"}}`);
+  this.set('value', null);
+
+  assert.equal(find('select').value, '');
+});

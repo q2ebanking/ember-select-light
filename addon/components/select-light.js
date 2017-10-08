@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   tagName: 'select',
   attributeBindings: ['disabled', 'tabindex'],
 
+  value: null,
   disabled: false,
   tabindex: null,
   placeholder: '',
