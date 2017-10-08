@@ -48,7 +48,7 @@ test('should have no options if none are specified', function(assert) {
 test('should have placeholder option if specified', function(assert) {
   this.render(hbs`{{select-light placeholder="Walrus"}}`);
 
-  assert.equal(find('select option').innerText, 'Walrus');
+  assert.equal(find('select option').innerText.trim(), 'Walrus');
 });
 
 test('should be able to yield to passed options', function(assert) {
