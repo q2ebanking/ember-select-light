@@ -5,7 +5,7 @@
   "keywords": [
     "ember-addon"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": {
     "name": "Joe Wroten",
     "email": "joe@wroten.me"
@@ -20,6 +20,7 @@
     "start": "ember server",
     "test": "ember try:each"
   },
+  "homepage": "https://github.com/sharpshark28/ember-select-light#readme",
   "dependencies": {
     "ember-cli-babel": "^6.3.0",
     "ember-cli-htmlbars": "^2.0.3"

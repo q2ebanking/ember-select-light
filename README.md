@@ -4,11 +4,31 @@ Ember Select Light is an Ember Addon written [data-down, actions up (DDAU)](http
 
 The intent is to provide a barebones `<select>` element that pairs well with modern Ember practices without styling assumptions. The result is a very functional, yet customizable, option for developers seeking a simple solution to select elements in their forms and apps.
 
-## Installation
+## Install
+
+**NOTE**: This is a work in progress and not quite ready for installation. (10/11/2017)
 
 ```bash
 ember install ember-select-light
 ```
+
+## Running
+
+* `ember serve`
+* Visit your app at [http://localhost:4200](http://localhost:4200).
+
+## Contributing
+
+We love pull requests from everyone. By participating in this project, you agree to abide by the [code of conduct](./code-of-conduct.md) and is subject to the [project license](./LICENSE.md).
+
+Clone this repo, make your changes with test coverage, push up a fork and [submit a pull request](https://github.com/sharpshark28/ember-select-light/compare).
+
+Soon after some primary contributors will review your code and submit feedback and hopefully click the fancy green approve button. Any test and linting failures should be caught during the pull request continuous integration environment and human eyes here after.
+
+## Running Tests
+
+* `npm run test` (Runs `ember try:each` to test your addon against multiple Ember versions)
+* or `ember test`
 
 ## Example Usage
 
