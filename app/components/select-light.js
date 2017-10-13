@@ -1,1 +1,1 @@
-export { default } from 'select-light/components/select-light';
+export { default } from 'ember-select-light/components/select-light';
