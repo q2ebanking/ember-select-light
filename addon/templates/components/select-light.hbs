@@ -9,13 +9,13 @@
 {{else}}
   {{#if isDeepOptions}}
     {{#each options as | option |}}
-      <option value={{get option valueKey}} selected={{eq (get option valueKey) value}}>
+      <option value={{get option valueKey}} selected={{is-equal (get option valueKey) value}}>
         {{get option displayKey}}
       </option>
     {{/each}}
   {{else}}
     {{#each options as | option |}}
-      <option value={{option}} selected={{eq option value}}>
+      <option value={{option}} selected={{is-equal option value}}>
         {{option}}
       </option>
     {{/each}}

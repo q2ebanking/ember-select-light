@@ -2,5 +2,6 @@
 'use strict';
 
 module.exports = {
-  name: 'select-light'
+  name: 'ember-select-light'
 };
+
