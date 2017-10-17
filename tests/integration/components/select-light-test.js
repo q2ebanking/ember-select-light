@@ -6,19 +6,19 @@ moduleForComponent('select-light', 'Integration | Component | select light', {
   integration: true
 });
 
-test('it should be a <select> element', function(assert) {
+test('should be a <select> element', function(assert) {
   this.render(hbs`{{select-light}}`);
 
   assert.equal(find('select').tagName, 'SELECT');
 });
 
-test('it should allow classes on parent <select>', function(assert) {
+test('should allow classes on parent <select>', function(assert) {
   this.render(hbs`{{select-light class="form-item"}}`);
 
   assert.ok(find('select').className.indexOf('form-item') !== -1);
 });
 
-test('it should be able to toggle disabled status', function(assert) {
+test('should be able to toggle disabled status', function(assert) {
   this.set('disabled', false);
 
   this.render(hbs`{{select-light disabled=disabled}}`);
@@ -29,7 +29,7 @@ test('it should be able to toggle disabled status', function(assert) {
   assert.equal(find('select').hasAttribute('disabled'), true);
 });
 
-test('it should support tabindex', function(assert) {
+test('should support tabindex', function(assert) {
   this.set('tabindex', null);
 
   this.render(hbs`{{select-light tabindex=tabindex}}`);
@@ -215,3 +215,4 @@ test('should fire focusIn and focusOut events when needed', async function(asser
   await triggerEvent('select', 'focus');
   await triggerEvent('select', 'blur');
 });
+
