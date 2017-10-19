@@ -14,13 +14,13 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "git@github.com:sharpshark28/ember-select-light.git",
+  "repository": "git@github.com:q2ebanking/ember-select-light.git",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
     "test": "ember try:each"
   },
-  "homepage": "https://github.com/sharpshark28/ember-select-light#readme",
+  "homepage": "https://github.com/q2ebanking/ember-select-light#readme",
   "dependencies": {
     "ember-cli-babel": "^6.3.0",
     "ember-cli-htmlbars": "^2.0.3"
