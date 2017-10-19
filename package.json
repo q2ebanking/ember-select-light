@@ -3,7 +3,12 @@
   "version": "0.1.0",
   "description": "The simple DDAU component built for Ember",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "select",
+    "ember select",
+    "ember-select-light",
+    "select box",
+    "ember select component"
   ],
   "license": "Apache-2.0",
   "author": {
