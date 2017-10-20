@@ -6,8 +6,6 @@ The intent is to provide a barebones `<select>` element that pairs well with mod
 
 ## Install
 
-**NOTE**: This is a work in progress and not quite ready for installation. (10/11/2017)
-
 ```bash
 ember install ember-select-light
 ```
