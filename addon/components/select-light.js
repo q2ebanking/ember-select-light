@@ -6,9 +6,11 @@ const { computed, get } = Ember;
 export default Ember.Component.extend({
   layout,
   tagName: 'select',
-  attributeBindings: ['disabled', 'tabindex'],
+  attributeBindings: ['name', 'id', 'disabled', 'tabindex'],
 
   value: null,
+  name: null,
+  id: null,
   disabled: false,
   tabindex: null,
   placeholder: '',

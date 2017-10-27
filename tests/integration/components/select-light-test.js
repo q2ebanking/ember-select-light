@@ -18,6 +18,13 @@ test('should allow classes on parent <select>', function(assert) {
   assert.ok(find('select').className.indexOf('form-item') !== -1);
 });
 
+test('should allow name and id changes on the parent <select>', function(assert) {
+  this.render(hbs`{{select-light name="snail" id="slug"}}`)
+
+  assert.equal(find('select').getAttribute('name'), 'snail');
+  assert.equal(find('select').getAttribute('id'), 'slug');
+});
+
 test('should be able to toggle disabled status', function(assert) {
   this.set('disabled', false);
 
