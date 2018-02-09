@@ -14,6 +14,7 @@ export default Ember.Component.extend({
   disabled: false,
   tabindex: null,
   placeholder: '',
+  disablePlaceholder: false,
   options: [],
   valueKey: 'value',
   displayKey: 'label',

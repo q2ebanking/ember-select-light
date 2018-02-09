@@ -58,6 +58,12 @@ test('should have placeholder option if specified', function(assert) {
   assert.equal(find('select option').innerText.trim(), 'Walrus');
 });
 
+test('should allow placeholder to be disabled if specified', function(assert) {
+  this.render(hbs`{{select-light placeholder="Walrus" disablePlaceholder=true options=options}}`);
+
+  assert.equal(this.$('option').attr('disabled'), 'disabled');
+});
+
 test('should be able to yield to passed options', function(assert) {
   this.render(hbs`
     {{#select-light}}
@@ -222,4 +228,3 @@ test('should fire focusIn and focusOut events when needed', async function(asser
   await triggerEvent('select', 'focus');
   await triggerEvent('select', 'blur');
 });
-
