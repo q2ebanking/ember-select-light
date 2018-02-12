@@ -58,6 +58,12 @@ test('should have placeholder option if specified', function(assert) {
   assert.equal(find('select option').innerText.trim(), 'Walrus');
 });
 
+test('should have a disabled placeholder', function(assert) {
+  this.render(hbs`{{select-light placeholder="Walrus" options=options}}`);
+
+  assert.equal(this.$('option').attr('disabled'), 'disabled');
+});
+
 test('should be able to yield to passed options', function(assert) {
   this.render(hbs`
     {{#select-light}}
@@ -103,20 +109,6 @@ test('should change select value when changing data down value', function(assert
   this.set('value', options[0]);
 
   assert.equal(find('select').value, options[0]);
-});
-
-test('should revert to placeholder option when value set to null', function(assert) {
-  let options = ['Sea Turtle', 'Stingray'];
-  let value = options[1];
-  this.setProperties({
-    options,
-    value,
-  });
-
-  this.render(hbs`{{select-light options=options value=value placeholder="Fish"}}`);
-  this.set('value', null);
-
-  assert.equal(find('select').value, '');
 });
 
 test('should render options correctly when passed array of objects', function(assert) {
@@ -222,4 +214,3 @@ test('should fire focusIn and focusOut events when needed', async function(asser
   await triggerEvent('select', 'focus');
   await triggerEvent('select', 'blur');
 });
-
