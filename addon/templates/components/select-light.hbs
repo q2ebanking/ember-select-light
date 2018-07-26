@@ -8,15 +8,15 @@
   {{yield}}
 {{else}}
   {{#if isDeepOptions}}
-    {{#each options as | option |}}
-      <option value={{get option valueKey}} selected={{is-equal (get option valueKey) value}}>
-        {{get option displayKey}}
+    {{#each options as | opt |}}
+      <option value={{get opt valueKey}} selected={{is-equal (get opt valueKey) value}}>
+        {{get opt displayKey}}
       </option>
     {{/each}}
   {{else}}
-    {{#each options as | option |}}
-      <option value={{option}} selected={{is-equal option value}}>
-        {{option}}
+    {{#each options as | opt |}}
+      <option value={{opt}} selected={{is-equal opt value}}>
+        {{opt}}
       </option>
     {{/each}}
   {{/if}}
