@@ -1,5 +1,5 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 export const isEqual = ([left, right]) => left === right;
 
-export default Ember.Helper.helper(isEqual);
+export default helper(isEqual);
