@@ -1,109 +1,111 @@
 
-import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { find } from 'ember-native-dom-helpers';
+import { render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 
-moduleForComponent('is-equal', 'helper:is-equal', {
-  integration: true
+module('Integration | Helper | is-equal', function(hooks) {
+	setupRenderingTest(hooks);
+
+	test('should be true when passed true and true', async function(assert) {
+		await render(hbs`{{is-equal true true}}`);
+
+		assert.equal(this.element.innerText.trim(), 'true');
+	});
+
+	test('should be false when passed false and true', async function(assert) {
+		await render(hbs`{{is-equal false true}}`);
+
+		assert.equal(this.element.innerText.trim(), 'false');
+	});
+
+	test('should be false when passed true and false', async function(assert) {
+		await render(hbs`{{is-equal true false}}`);
+
+		assert.equal(this.element.innerText.trim(), 'false');
+	});
+
+	test('should be true when passed false and false', async function(assert) {
+		await render(hbs`{{is-equal false false}}`);
+
+		assert.equal(this.element.innerText.trim(), 'true');
+	});
+
+	test('should be true if passed matching strings', async function(assert) {
+		await render(hbs`{{is-equal 'foo' 'foo'}}`);
+
+		assert.equal(this.element.innerText.trim(), 'true');
+	});
+
+	test('should be false if passed NOT matching strings', async function(assert) {
+		await render(hbs`{{is-equal 'foo' 'bar'}}`);
+
+		assert.equal(this.element.innerText.trim(), 'false');
+	});
+
+	test('should be true if passed two matching properties', async function(assert) {
+		this.setProperties({
+			left: 'foo',
+			right: 'foo',
+		});
+
+		await render(hbs`{{is-equal left right}}`);
+
+		assert.equal(this.element.innerText.trim(), 'true');
+	});
+
+	test('should be false if passed two NOT matching properties', async function(assert) {
+		this.setProperties({
+			left: 'foo',
+			right: 'bar',
+		});
+
+		await render(hbs`{{is-equal left right}}`);
+
+		assert.equal(this.element.innerText.trim(), 'false');
+	});
+
+	test('should switch as computed properties change', async function(assert) {
+		this.setProperties({
+			left: 'foo',
+			right: 'bar',
+		});
+
+		await render(hbs`{{is-equal left right}}`);
+
+		assert.equal(this.element.innerText.trim(), 'false');
+
+		this.set('right', 'foo');
+		assert.equal(this.element.innerText.trim(), 'true');
+
+		this.set('left', 'bar');
+		assert.equal(this.element.innerText.trim(), 'false');
+	});
+
+
+	test('should be true when comparing with the get helper', async function(assert) {
+		this.setProperties({
+			left: 'foo',
+			right: { deeper: 'foo', },
+		});
+
+		await render(hbs`{{is-equal left (get right 'deeper')}}`);
+
+		assert.equal(this.element.innerText.trim(), 'true');
+	});
+
+	test('should be usable inline to toggle an attribute', async function(assert) {
+		this.setProperties({
+			left: 'foo',
+			right: 'bar',
+		});
+
+		await render(hbs`<input disabled={{is-equal left right}} />`);
+
+		assert.equal(this.element.children[0].hasAttribute('disabled'), false);
+
+		this.set('right', 'foo');
+		assert.equal(this.element.children[0].hasAttribute('disabled'), true);
+	});
 });
 
-test('should be true when passed true and true', function(assert) {
-  this.render(hbs`{{is-equal true true}}`);
-
-  assert.equal(find('div').innerText.trim(), 'true');
-});
-
-test('should be false when passed false and true', function(assert) {
-  this.render(hbs`{{is-equal false true}}`);
-
-  assert.equal(find('div').innerText.trim(), 'false');
-});
-
-test('should be false when passed true and false', function(assert) {
-  this.render(hbs`{{is-equal true false}}`);
-
-  assert.equal(find('div').innerText.trim(), 'false');
-});
-
-test('should be true when passed false and false', function(assert) {
-  this.render(hbs`{{is-equal false false}}`);
-
-  assert.equal(find('div').innerText.trim(), 'true');
-});
-
-test('should be true if passed matching strings', function(assert) {
-  this.render(hbs`{{is-equal 'foo' 'foo'}}`);
-
-  assert.equal(find('div').innerText.trim(), 'true');
-});
-
-test('should be false if passed NOT matching strings', function(assert) {
-  this.render(hbs`{{is-equal 'foo' 'bar'}}`);
-
-  assert.equal(find('div').innerText.trim(), 'false');
-});
-
-test('should be true if passed two matching properties', function(assert) {
-  this.setProperties({
-    left: 'foo',
-    right: 'foo',
-  });
-
-  this.render(hbs`{{is-equal left right}}`);
-
-  assert.equal(find('div').innerText.trim(), 'true');
-});
-
-test('should be false if passed two NOT matching properties', function(assert) {
-  this.setProperties({
-    left: 'foo',
-    right: 'bar',
-  });
-
-  this.render(hbs`{{is-equal left right}}`);
-
-  assert.equal(find('div').innerText.trim(), 'false');
-});
-
-test('should switch as computed properties change', function(assert) {
-  this.setProperties({
-    left: 'foo',
-    right: 'bar',
-  });
-
-  this.render(hbs`{{is-equal left right}}`);
-
-  assert.equal(find('div').innerText.trim(), 'false');
-
-  this.set('right', 'foo');
-  assert.equal(find('div').innerText.trim(), 'true');
-
-  this.set('left', 'bar');
-  assert.equal(find('div').innerText.trim(), 'false');
-});
-
-
-test('should be true when comparing with the get helper', function(assert) {
-  this.setProperties({
-    left: 'foo',
-    right: { deeper: 'foo', },
-  });
-
-  this.render(hbs`{{is-equal left (get right 'deeper')}}`);
-
-  assert.equal(find('div').innerText.trim(), 'true');
-});
-
-test('should be usable inline to toggle an attribute', function(assert) {
-  this.setProperties({
-    left: 'foo',
-    right: 'bar',
-  });
-
-  this.render(hbs`<input disabled={{is-equal left right}} />`);
-
-  assert.equal(find('input').hasAttribute('disabled'), false);
-
-  this.set('right', 'foo');
-  assert.equal(find('input').hasAttribute('disabled'), true);
-});

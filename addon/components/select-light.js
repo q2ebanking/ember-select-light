@@ -1,9 +1,10 @@
-import Ember from 'ember';
 import layout from '../templates/components/select-light';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
-const { computed, get } = Ember;
+const options = [];
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout,
   tagName: 'select',
   attributeBindings: ['name', 'id', 'disabled', 'tabindex'],
@@ -14,15 +15,15 @@ export default Ember.Component.extend({
   disabled: false,
   tabindex: null,
   placeholder: '',
-  options: [],
+  options,
   valueKey: 'value',
   displayKey: 'label',
 
   isDeepOptions: computed('options', 'valueKey', 'displayKey', function() {
-    let valueKey = get(this, 'valueKey');
-    let displayKey = get(this, 'displayKey');
-    let firstOptionValue = get(this, `options.0.${valueKey}`);
-    let firstOptionDisplay = get(this, `options.0.${displayKey}`);
+    if (this.options.length === 0 || !this.valueKey || !this.displayKey) return false;
+
+    let firstOptionValue = this.options[0][this.valueKey];
+    let firstOptionDisplay = this.options[0][this.displayKey];
     return !(firstOptionValue === undefined && firstOptionDisplay === undefined);
   }),
 });

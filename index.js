@@ -1,7 +1,5 @@
-/* eslint-env node */
 'use strict';
 
 module.exports = {
   name: 'ember-select-light'
 };
-
