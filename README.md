@@ -15,6 +15,12 @@ ember install ember-select-light
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
+### Linting
+
+* `npm run lint:hbs`
+* `npm run lint:js`
+* `npm run lint:js -- --fix`
+
 ## Contributing
 
 We love pull requests from everyone. By participating in this project, you agree to abide by the [code of conduct](./code-of-conduct.md) and is subject to the [project license](./LICENSE.md).
