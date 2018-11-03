@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "ember-cli-babel": "^6.16.0",
-    "ember-cli-htmlbars": "^3.0.0"
+    "ember-cli-htmlbars": "^3.0.0",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
