@@ -1,5 +1,11 @@
 import hbs from 'htmlbars-inline-precompile';
-import { render, find, findAll, fillIn, triggerEvent } from '@ember/test-helpers';
+import {
+  render,
+  find,
+  findAll,
+  fillIn,
+  triggerEvent
+} from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -21,8 +27,8 @@ module('Integration | Component | select-light', function(hooks) {
 	test('should allow name and id changes on the parent <select>', async function(assert) {
 		await render(hbs`{{select-light name="snail" id="slug"}}`)
 
-		assert.equal(find('select').getAttribute('name'), 'snail');
-		assert.equal(find('select').getAttribute('id'), 'slug');
+		assert.dom('select').hasAttribute('name', 'snail');
+		assert.dom('select').hasAttribute('id', 'slug');
 	});
 
 	test('should be able to toggle disabled status', async function(assert) {
@@ -43,7 +49,7 @@ module('Integration | Component | select-light', function(hooks) {
 		assert.equal(find('select').hasAttribute('tabindex'), false);
 
 		this.set('tabindex', 0);
-		assert.equal(find('select').getAttribute('tabindex'), 0);
+		assert.dom('select').hasAttribute('tabindex', '0');
 	});
 
 	test('should have no options if none are specified', async function(assert) {
@@ -61,7 +67,7 @@ module('Integration | Component | select-light', function(hooks) {
 	test('should have a disabled placeholder', async function(assert) {
 		await render(hbs`{{select-light placeholder="Walrus"}}`);
 
-		assert.equal(this.$('option').attr('disabled'), 'disabled');
+		assert.dom('option').hasAttribute('disabled');
 	});
 
 	test('should be able to yield to passed options', async function(assert) {
@@ -72,7 +78,7 @@ module('Integration | Component | select-light', function(hooks) {
 	`);
 
 		assert.equal(find('select option').innerText, 'Platypus');
-		assert.equal(find('select option').value, 'plat');
+		assert.dom('select option').hasValue('plat');
 	});
 
 	test('should render options from passed flat array', async function(assert) {
@@ -94,7 +100,7 @@ module('Integration | Component | select-light', function(hooks) {
 
 		await render(hbs`{{select-light options=options value=value}}`);
 
-		assert.equal(find('select').value, value);
+		assert.dom('select').hasValue(value);
 	});
 
 	test('should change select value when changing data down value', async function(assert) {
@@ -108,7 +114,7 @@ module('Integration | Component | select-light', function(hooks) {
 		await render(hbs`{{select-light options=options value=value placeholder="hammerhead"}}`);
 		this.set('value', options[0]);
 
-		assert.equal(find('select').value, options[0]);
+		assert.dom('select').hasValue(options[0]);
 	});
 
 	test('should render options correctly when passed array of objects', async function(assert) {
@@ -125,9 +131,9 @@ module('Integration | Component | select-light', function(hooks) {
 		await render(hbs`{{select-light options=options value=value}}`);
 
 		assert.equal(findAll('select option').length, options.length);
-		assert.equal(find('select option').getAttribute('value'), options[0].value);
+		assert.dom('select option').hasAttribute('value', options[0].value);
 		assert.equal(find('select option').innerText.trim(), options[0].label);
-		assert.equal(find('select').value, value);
+		assert.dom('select').hasValue(value);
 	});
 
 	test('should render options with customized value and display keys when passed array of objects', async function(assert) {
@@ -143,7 +149,7 @@ module('Integration | Component | select-light', function(hooks) {
 
 		await render(hbs`{{select-light options=options value=value valueKey="val" displayKey="description"}}`);
 
-		assert.equal(find('select option').getAttribute('value'), options[0].val);
+		assert.dom('select option').hasAttribute('value', options[0].val);
 		assert.equal(find('select option').innerText.trim(), options[0].description);
 	});
 
@@ -159,7 +165,7 @@ module('Integration | Component | select-light', function(hooks) {
 		await fillIn('select', 'turtle');
 		await triggerEvent('select', 'change');
 
-		assert.equal(find('select').value, 'turtle');
+		assert.dom('select').hasValue('turtle');
 		assert.equal(this.get('myValue'), 'turtle');
 	});
 
@@ -176,11 +182,13 @@ module('Integration | Component | select-light', function(hooks) {
 		await fillIn('select', options[0]);
 		await triggerEvent('select', 'change');
 
-		assert.equal(find('select').value, options[0]);
+		assert.dom('select').hasValue(options[0]);
 		assert.equal(this.get('myValue'), options[0]);
 	});
 
 	test('should fire change when user chooses option, custom action with flat array', async function(assert) {
+		assert.expect(1);
+
 		let options = ['clam', 'starfish'];
 		this.setProperties({
 			options,
@@ -193,25 +201,5 @@ module('Integration | Component | select-light', function(hooks) {
 		await render(hbs`{{select-light options=options value=value change=(action customAction)}}`);
 
 		await fillIn('select', options[0]);
-		await triggerEvent('select', 'change');
-	});
-
-	test('should fire focusIn and focusOut events when needed', async function(assert) {
-		assert.expect(2);
-
-		this.setProperties({
-			options: ['clown fish', 'cat fish'],
-			focusIn: (event) => {
-				assert.equal(event.type, 'focusin');
-			},
-			focusOut: (event) => {
-				assert.equal(event.type, 'focusout');
-			},
-		});
-
-		await render(hbs`{{select-light options=options focusIn=(action focusIn) focusOut=(action focusOut)}}`);
-
-		await triggerEvent('select', 'focus');
-		await triggerEvent('select', 'blur');
 	});
 });
