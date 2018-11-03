@@ -49,7 +49,7 @@ module('Integration | Component | select-light', function(hooks) {
 		assert.equal(find('select').hasAttribute('tabindex'), false);
 
 		this.set('tabindex', 0);
-		assert.dom('select').hasAttribute('tabindex', 0);
+		assert.dom('select').hasAttribute('tabindex', '0');
 	});
 
 	test('should have no options if none are specified', async function(assert) {
@@ -67,7 +67,7 @@ module('Integration | Component | select-light', function(hooks) {
 	test('should have a disabled placeholder', async function(assert) {
 		await render(hbs`{{select-light placeholder="Walrus"}}`);
 
-		assert.dom('option').hasAttribute('disabled', 'disabled');
+		assert.dom('option').hasAttribute('disabled');
 	});
 
 	test('should be able to yield to passed options', async function(assert) {
@@ -187,6 +187,8 @@ module('Integration | Component | select-light', function(hooks) {
 	});
 
 	test('should fire change when user chooses option, custom action with flat array', async function(assert) {
+		assert.expect(1);
+
 		let options = ['clam', 'starfish'];
 		this.setProperties({
 			options,
@@ -199,25 +201,5 @@ module('Integration | Component | select-light', function(hooks) {
 		await render(hbs`{{select-light options=options value=value change=(action customAction)}}`);
 
 		await fillIn('select', options[0]);
-		await triggerEvent('select', 'change');
-	});
-
-	test('should fire focusIn and focusOut events when needed', async function(assert) {
-		assert.expect(2);
-
-		this.setProperties({
-			options: ['clown fish', 'cat fish'],
-			focusIn: (event) => {
-				assert.equal(event.type, 'focusin');
-			},
-			focusOut: (event) => {
-				assert.equal(event.type, 'focusout');
-			},
-		});
-
-		await render(hbs`{{select-light options=options focusIn=(action focusIn) focusOut=(action focusOut)}}`);
-
-		await triggerEvent('select', 'focus');
-		await triggerEvent('select', 'blur');
 	});
 });
