@@ -7,7 +7,7 @@
   ],
   "repository": "github:q2ebanking/ember-select-light",
   "license": "MIT",
-  "author": "",
+  "author": "Joe Wroten <joe@wroten.me> (https://www.wroten.me/)",
   "directories": {
     "doc": "doc",
     "test": "tests"
