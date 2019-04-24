@@ -72,7 +72,6 @@ String that matches the selected `<option value="...`.
 	{ value: 'mako', label: 'Mako Shark' },
 ]
 ```
-
 `value` and `label` will be the default keys used unless `valueKey="...` and/or `displayKey="...` are used respectively.
 
 #### As a Yield
