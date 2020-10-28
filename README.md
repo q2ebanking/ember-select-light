@@ -1,4 +1,10 @@
-# Ember-Select-Light
+# DEPRECATED: Ember-Select-Light
+
+This project has been forked to [the official ember-a11y org](https://github.com/ember-a11y) where an [updated v2.0.0 has been released](https://github.com/ember-a11y/ember-select-light/releases/tag/v2.0.0).
+
+https://github.com/ember-a11y/ember-select-light/
+
+---
 
 ![build status](https://travis-ci.org/q2ebanking/ember-select-light.svg?branch=master) [![npm version](https://badge.fury.io/js/ember-select-light.svg)](https://badge.fury.io/js/ember-select-light) [![Ember Observer Score](https://emberobserver.com/badges/ember-select-light.svg)](https://emberobserver.com/addons/ember-select-light)
 
