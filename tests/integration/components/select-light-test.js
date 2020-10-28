@@ -1,11 +1,5 @@
 import hbs from 'htmlbars-inline-precompile';
-import {
-  render,
-  find,
-  findAll,
-  fillIn,
-  triggerEvent
-} from '@ember/test-helpers';
+import { render, fillIn, triggerEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -13,20 +7,20 @@ module('Integration | Component | select-light', function(hooks) {
 	setupRenderingTest(hooks);
 
 	test('should be a <select> element', async function(assert) {
-		await render(hbs`{{select-light}}`);
+		await render(hbs`<SelectLight />`);
 
-		assert.equal(find('select').tagName, 'SELECT');
+    assert.dom('select').exists();
 	});
 
-	test('should allow classes on parent <select>', async function(assert) {
-		await render(hbs`{{select-light class="form-item"}}`);
+	test('should allow classes, ids and names to be added to <select>', async function(assert) {
+		await render(hbs`
+      <SelectLight
+        name="snail"
+        id="slug"
+        class="form-item" />
+    `);
 
-		assert.ok(find('select').className.indexOf('form-item') !== -1);
-	});
-
-	test('should allow name and id changes on the parent <select>', async function(assert) {
-		await render(hbs`{{select-light name="snail" id="slug"}}`)
-
+    assert.dom('select').hasClass('form-item');
 		assert.dom('select').hasAttribute('name', 'snail');
 		assert.dom('select').hasAttribute('id', 'slug');
 	});
@@ -34,50 +28,46 @@ module('Integration | Component | select-light', function(hooks) {
 	test('should be able to toggle disabled status', async function(assert) {
 		this.set('disabled', false);
 
-		await render(hbs`{{select-light disabled=disabled}}`);
+		await render(hbs`<SelectLight disabled={{this.disabled}} />`);
 
-		assert.equal(find('select').hasAttribute('disabled'), false);
+    assert.dom('select').doesNotHaveAttribute('disabled');
 
 		this.set('disabled', true);
-		assert.equal(find('select').hasAttribute('disabled'), true);
+    assert.dom('select').hasAttribute('disabled');
 	});
 
 	test('should support tabindex', async function(assert) {
 		this.set('tabindex', null);
 
-		await render(hbs`{{select-light tabindex=tabindex}}`);
-		assert.equal(find('select').hasAttribute('tabindex'), false);
+		await render(hbs`<SelectLight tabindex={{this.tabindex}} />`);
+
+		assert.dom('select').doesNotHaveAttribute('tabindex', '0');
 
 		this.set('tabindex', 0);
 		assert.dom('select').hasAttribute('tabindex', '0');
 	});
 
 	test('should have no options if none are specified', async function(assert) {
-		await render(hbs`{{select-light}}`);
+		await render(hbs`<SelectLight />`);
 
-		assert.equal(find('select').getElementsByTagName('option').length, 0);
+    assert.dom('select option').doesNotExist();
 	});
 
-	test('should have placeholder option if specified', async function(assert) {
-		await render(hbs`{{select-light placeholder="Walrus"}}`);
+	test('should have a (disabled) placeholder option if specified', async function(assert) {
+		await render(hbs`<SelectLight @placeholder="Walrus" />`);
 
-		assert.equal(find('select option').innerText.trim(), 'Walrus');
-	});
-
-	test('should have a disabled placeholder', async function(assert) {
-		await render(hbs`{{select-light placeholder="Walrus"}}`);
-
+    assert.dom('select option').includesText('Walrus');
 		assert.dom('option').hasAttribute('disabled');
 	});
 
 	test('should be able to yield to passed options', async function(assert) {
 		await render(hbs`
-		{{#select-light}}
+		<SelectLight>
 			<option value="plat">Platypus</option>
-		{{/select-light}}
+		</SelectLight>
 	`);
 
-		assert.equal(find('select option').innerText, 'Platypus');
+		assert.dom('select option').includesText('Platypus');
 		assert.dom('select option').hasValue('plat');
 	});
 
@@ -85,9 +75,9 @@ module('Integration | Component | select-light', function(hooks) {
 		let options = ['squid', 'octopus'];
 		this.setProperties({options});
 
-		await render(hbs`{{select-light options=options}}`);
+		await render(hbs`<SelectLight @options={{this.options}} />`);
 
-		assert.equal(findAll('select option').length, options.length);
+    assert.dom('select option').exists({ count: options.length });
 	});
 
 	test('should select option that matches value', async function(assert) {
@@ -98,7 +88,11 @@ module('Integration | Component | select-light', function(hooks) {
 			value,
 		});
 
-		await render(hbs`{{select-light options=options value=value}}`);
+		await render(hbs`
+      <SelectLight
+        @options={{this.options}}
+        @value={{this.value}} />
+    `);
 
 		assert.dom('select').hasValue(value);
 	});
@@ -111,9 +105,14 @@ module('Integration | Component | select-light', function(hooks) {
 			value,
 		});
 
-		await render(hbs`{{select-light options=options value=value placeholder="hammerhead"}}`);
-		this.set('value', options[0]);
+		await render(hbs`
+      <SelectLight
+        @options={{this.options}}
+        @value={{this.value}}
+        @placeholder="hammerhead" />
+    `);
 
+		this.set('value', options[0]);
 		assert.dom('select').hasValue(options[0]);
 	});
 
@@ -128,11 +127,14 @@ module('Integration | Component | select-light', function(hooks) {
 			value,
 		});
 
-		await render(hbs`{{select-light options=options value=value}}`);
+		await render(hbs`
+      <SelectLight
+        @options={{this.options}}
+        @value={{this.value}} />`);
 
-		assert.equal(findAll('select option').length, options.length);
+    assert.dom('select option').exists({ count: options.length });
 		assert.dom('select option').hasAttribute('value', options[0].value);
-		assert.equal(find('select option').innerText.trim(), options[0].label);
+		assert.dom('select option').includesText(options[0].label);
 		assert.dom('select').hasValue(value);
 	});
 
@@ -147,26 +149,32 @@ module('Integration | Component | select-light', function(hooks) {
 			value,
 		});
 
-		await render(hbs`{{select-light options=options value=value valueKey="val" displayKey="description"}}`);
+		await render(hbs`
+      <SelectLight
+        @options={{this.options}}
+        @value={{this.value}}
+        @valueKey="val"
+        @displayKey="description" />
+    `);
 
 		assert.dom('select option').hasAttribute('value', options[0].val);
-		assert.equal(find('select option').innerText.trim(), options[0].description);
+		assert.dom('select option').includesText(options[0].description);
 	});
 
 	test('should fire change when user chooses option, mut with yield', async function(assert) {
 		this.set('myValue', null);
 
 		await render(hbs`
-		{{#select-light change=(action (mut myValue) value="target.value")}}
-			<option value="turtle">Turtle</option>
-		{{/select-light}}
-	`);
+      <SelectLight @change={{action (mut myValue) value="target.value"}}>
+        <option value="turtle">Turtle</option>
+      </SelectLight>
+    `);
 
 		await fillIn('select', 'turtle');
 		await triggerEvent('select', 'change');
 
 		assert.dom('select').hasValue('turtle');
-		assert.equal(this.get('myValue'), 'turtle');
+		assert.equal(this.myValue, 'turtle');
 	});
 
 	test('should fire change when user chooses option, mut with flat array', async function(assert) {
@@ -177,29 +185,39 @@ module('Integration | Component | select-light', function(hooks) {
 			value: options[1],
 		});
 
-		await render(hbs`{{select-light options=options value=value change=(action (mut myValue) value="target.value")}}`);
+		await render(hbs`
+      <SelectLight
+        @options={{this.options}}
+        @value={{this.value}}
+        @change={{action (mut this.myValue) value="target.value"}} />
+    `);
 
 		await fillIn('select', options[0]);
 		await triggerEvent('select', 'change');
 
 		assert.dom('select').hasValue(options[0]);
-		assert.equal(this.get('myValue'), options[0]);
+		assert.equal(this.myValue, options[0]);
 	});
 
 	test('should fire change when user chooses option, custom action with flat array', async function(assert) {
-		assert.expect(1);
-
 		let options = ['clam', 'starfish'];
 		this.setProperties({
 			options,
 			value: options[1],
-			customAction: (event) => {
-				assert.equal(event.target.value, options[0]);
+			customAction: ({ target: { value } }) => {
+        assert.step('handled action');
+				assert.equal(value, options[0]);
 			},
 		});
 
-		await render(hbs`{{select-light options=options value=value change=(action customAction)}}`);
-
+		await render(hbs`
+      <SelectLight
+        @options={{this.options}}
+        @value={{this.value}}
+        @change={{action this.customAction}} />
+    `);
 		await fillIn('select', options[0]);
+
+    assert.verifySteps(['handled action']);
 	});
 });
