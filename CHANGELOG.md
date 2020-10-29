@@ -1,5 +1,11 @@
 # ember-select-light Changelog
 
+### v2.0.1 (October 29, 2020)
+Previous two Ember LTS guarenteed to work thanks to ember-try (3.16, 3.20)
+- [#17](https://github.com/ember-a11y/ember-select-light/pull/17) [DEVOPS] ember-try added to ensure LTS / future versions work
+- [#24](https://github.com/ember-a11y/ember-select-light/pull/24) [DOCS] UPGRADE.md guide for upgrading from v1.x
+- [#21](https://github.com/ember-a11y/ember-select-light/pull/21) [DOCS] Better addon description, reference ember-component-patterns
+
 ### v2.0.0 (October 28, 2020)
 - [#20](https://github.com/ember-a11y/ember-select-light/pull/20) [DOCS] Changelog introduced, bumped to 2.x
 - [#19](https://github.com/ember-a11y/ember-select-light/pull/19) [DOCS] README Badges
