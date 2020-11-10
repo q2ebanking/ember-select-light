@@ -60,6 +60,12 @@ Other arguments are spread onto the `<select ...attributes` as you'd expect, all
 <SelectLight class="my-select" disabled="true" />
 ```
 
+#### Styled
+
+As shown above we can pass in other arguments like `class="` which allows us to style our Select dropdowns. Below is an example with the Select dropdown styled using [Tailwind CSS](https://tailwindcss.com/).
+
+[![Following the Tailwind Custom Select guides this component can be easily styled](./tailwind-styled.gif)](https://tailwindcss.com/components/forms#custom-select)
+
 ---
 
 ## Upgrading
