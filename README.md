@@ -17,7 +17,7 @@ ember install ember-select-light
 ```handlebars
 <SelectLight
   @value="turtle"
-  @options=(array "turtle" "tortoise")
+  @options={{array "turtle" "tortoise"}}
   @change={{action "handleChange"}} />
 ```
 
@@ -25,20 +25,20 @@ ember install ember-select-light
 
 ```handlebars
 <SelectLight
-  @options=(array
+  @options={{array
     (hash value="shortfin" label="Shortfin Shark")
     (hash value="mako" label="Mako Shark")
-  ) />
+  }} />
 ```
 
 `value` and `label` will be the default object keys used unless `@valueKey="...` and/or `@displayKey="...` are used respectively, like so...
 
 ```handlebars
 <SelectLight
-  @options=(array
+  @options={{array
     (hash myValue="shortfin" myLabel="Shortfin Shark")
     (hash myValue="mako" myLabel="Mako Shark")
-  )
+  }}
   @valueKey="myValue"
   @displayKey="myLabel" />
 ```
