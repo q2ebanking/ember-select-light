@@ -1,3 +1,5 @@
+# THIS PROJECT IS ARCHIVED AND NO LONGER MAINTAINED
+
 # Ember-Select-Light
 
 ![build status](https://travis-ci.org/q2ebanking/ember-select-light.svg?branch=master) [![npm version](https://badge.fury.io/js/ember-select-light.svg)](https://badge.fury.io/js/ember-select-light) [![Ember Observer Score](https://emberobserver.com/badges/ember-select-light.svg)](https://emberobserver.com/addons/ember-select-light)
